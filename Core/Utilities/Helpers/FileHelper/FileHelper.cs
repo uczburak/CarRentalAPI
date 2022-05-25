@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Core.Utilities.Helpers.FileHelper
 {
-    public class FileHelper
+    public class FileHelper : IFileHelper
     {
-        public static void Delete(string filePath)
+        public void Delete(string filePath)
         {
             if (File.Exists(filePath))
             {
@@ -18,7 +18,7 @@ namespace Core.Utilities.Helpers.FileHelper
             }
         }
 
-        public static string Update(IFormFile file, string filePath, string root)
+        public string Update(IFormFile file, string filePath, string root)
         {
             if (File.Exists(filePath))
             {
@@ -27,7 +27,7 @@ namespace Core.Utilities.Helpers.FileHelper
             return Upload(file, root);
         }
 
-        public static string Upload(IFormFile file, string root)
+        public string Upload(IFormFile file, string root)
         {
             if (file.Length > 0)
             {

@@ -4,29 +4,12 @@ using Business.DependencyResolvers.Autofac;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 
-//static IHostBuilder CreateHostBuilder(string[] args) =>
-//    Host.CreateDefaultBuilder(args)
-//        .UseServiceProviderFactory(new AutofacServiceProviderFactory())
-//        .ConfigureContainer<ContainerBuilder>(builder =>
-//        {
-//            builder.RegisterModule(new AutofacBusinessModule());
-//        })
-//        .ConfigureWebHostDefaults(webBuilder =>
-//        {
-//            webBuilder.UseStartup<StartupBase>();
-//        });
-
-Host.CreateDefaultBuilder(args).UseServiceProviderFactory(new AutofacServiceProviderFactory())
-    .ConfigureContainer<ContainerBuilder>(builder =>
-    {
-        builder.RegisterModule(new AutofacBusinessModule());
-    })
-    .ConfigureWebHostDefaults(webBuilder =>
-    {
-        webBuilder.UseStartup<StartupBase>();
-    });
+builder.Host.ConfigureDefaults(args).UseServiceProviderFactory(new AutofacServiceProviderFactory())
+       .ConfigureContainer<ContainerBuilder>(builder =>
+       {
+           builder.RegisterModule(new AutofacBusinessModule());
+       });
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -41,7 +24,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
 
 app.UseHttpsRedirection();
 
