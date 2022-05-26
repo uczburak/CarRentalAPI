@@ -1,5 +1,6 @@
 ﻿using Business.Abstract;
 using Business.Constants.Messages;
+using Core.Entities.Concrete;
 using Core.Utilities.Results.Abstract;
 using Core.Utilities.Results.Concrete;
 using DataAccess.Abstract;
@@ -14,8 +15,7 @@ namespace Business.Concrete
 {
     public class UserManager : IUserService
     {
-        private readonly IUserDal _userDal;
-
+        private IUserDal _userDal;
         public UserManager(IUserDal userDal)
         {
             _userDal = userDal;
@@ -25,27 +25,32 @@ namespace Business.Concrete
             _userDal.Add(user);
             return new SuccessResult(Messages.UserAdded);
         }
-
-        public IResult Delete(User user)
-        {
-            _userDal.Delete(user);
-            return new SuccessResult(Messages.UserDeleted);
-        }
-
-        public IDataResult<List<User>> GetAll()
-        {
-            return new SuccessDataResult<List<User>>(_userDal.GetAll(), Messages.UsersListed);
-        }
-
         public IDataResult<User> GetById(int id)
         {
-            return new SuccessDataResult<User>(_userDal.Get(u => u.UserId == id), Messages.UsersListed);
+            var user = _userDal.Get(u => u.UserId == id);
+            if (user == null)
+            {
+                return new ErrorDataResult<User>(Messages.UserNotFound);
+            }
+            return new SuccessDataResult<User>(user);
         }
-
-        public IResult Update(User user)
+        public IDataResult<User> GetByMail(string email)
         {
-            _userDal.Update(user);
-            return new SuccessResult(Messages.UserUpdated);
+            var result = _userDal.Get(u => u.Email == email);
+            if (result == null)
+            {
+                return new ErrorDataResult<User>(Messages.UserNotFound);
+            }
+            return new SuccessDataResult<User>(result, Messages.UserListed);
+        }
+        public IDataResult<List<OperationClaim>> GetClaims(User user)
+        {
+            var result = _userDal.GetClaims(user);
+            if (result == null)
+            {
+                return new ErrorDataResult<List<OperationClaim>>(Messages.UserNotFound);
+            }
+            return new SuccessDataResult<List<OperationClaim>>(result);
         }
     }
 }

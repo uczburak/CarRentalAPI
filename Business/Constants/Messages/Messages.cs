@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Core.Entities.Concrete;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -26,10 +27,16 @@ namespace Business.Constants.Messages
         public static readonly string ColorsListed = "Renkler başarıyla listelendi";
 
 
-        public static readonly string UserAdded = "Kullanıcı başarıyla oluşturuldu";
+        public static readonly string UserRegistered = "Kullanıcı Kaydı başarıyla oluşturuldu";
+        public static readonly string SuccessfulLogin = "Giriş başarılı";
+        public static readonly string UserAdded = "Kullanıcı başarıyla eklendi";
         public static readonly string UserDeleted = "Kullanıcı başarıyla silindi";
-        public static readonly string UsersListed = "Kullanıcılar başarıyla listelendi";
+        public static readonly string UserListed = "Kullanıcı başarıyla listelendi";
         public static readonly string UserUpdated = "Kullanıcı başarıyla güncellendi";
+        public static readonly string UserNotFound = "Kullanıcı bulunamadı";
+        public static readonly string PasswordError = "Girilen şifre belirlenen adresle uyuşmuyor";
+        public static readonly string UserAlreadyExists = "Kullanıcı zaten kayıtlı";
+        public static readonly string AccessTokenCreated = "Access Token oluşturuldu";
 
 
         public static readonly string CustomerAdded = "Müşteri başarıyla eklendi";
@@ -52,5 +59,7 @@ namespace Business.Constants.Messages
         public static readonly string CarImageLimitExceeded = "Bir araç için en fazla 5 görsel eklenebilir";
 
         public static readonly string MaintenanceTime = "Sistem bakımda";
+
+        public static readonly string AuthorizationDenied = "Yetkiniz bulunmamakta. Lütfen bilgilerinizi kontrol edin.";
     }
 }

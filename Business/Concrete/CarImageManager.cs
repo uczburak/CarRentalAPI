@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspects.Autofac;
 using Business.Constants.Messages;
 using Business.Constants.Paths;
 using Core.Utilities.Business;
@@ -25,7 +26,8 @@ namespace Business.Concrete
             _carImageDal = carImageDal;
             _fileHelper = fileHelper;
         }
-
+        
+        [SecuredOperation("admin")]
         public IResult Upload(IFormFile file, CarImage carImage)
         {
             IResult result = BusinessRules.Run(CheckIfCarImageLimit(carImage.CarId));
@@ -39,12 +41,15 @@ namespace Business.Concrete
             return new SuccessResult(Messages.CarImageUploaded);
         }
 
+        [SecuredOperation("admin")]
         public IResult Delete(CarImage carImage)
         {
             _fileHelper.Delete(RootPath.ImagesPath + carImage.ImagePath);
             _carImageDal.Delete(carImage);
             return new SuccessResult(Messages.CarImageDeleted);
         }
+
+        [SecuredOperation("admin")]
         public IResult Update(IFormFile file, CarImage carImage)
         {
             carImage.ImagePath = _fileHelper.Update(file, RootPath.ImagesPath + carImage.ImagePath, RootPath.ImagesPath);
